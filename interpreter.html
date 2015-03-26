@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>simple interpreter</title>
+    <script src="jquery-2.1.3.min.js"></script>
+</head>
+<body>
+    <textarea name="" id="text" cols="30" rows="10"></textarea>
+    <button id="run">RUN!</button>
+    
+    <script>
+   $( document ).ready(function() {
+       $('#run').click(function(){
+    var lines = $('#text').val().split('\n');
+for(var i = 0;i < lines.length;i++){
+    console.log(lines[i]);
+}
+   });
+       });
+    </script>
+</body>
+</html>
