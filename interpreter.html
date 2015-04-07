@@ -1,44 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>simple interpreter</title>
     <script src="jquery-2.1.3.min.js"></script>
 </head>
+
 <body>
     <textarea name="" id="text" cols="30" rows="10"></textarea>
     <button id="run">RUN!</button>
-    
+
     <script>
-       $( document ).ready(function() {
-           var pword = /[\w \= \+ \- \* \/]+/;
-           var pout = /^(out \w*)/;
-           var pin = /^(in \w*)/;
-           $('#run').click(function(){
-            var v = {};
-            var lines = $('#text').val().split('\n');
-            for(var i = 0;i < lines.length;i++){
-                if(lines[i].length > 0){
-                    
-                    // check for in 
-                    if(pin.test(lines[i])){
-                       var tv = /[^in ](\w*)/.exec(lines[i]);
-                        v[tv] = prompt('enter value for "' + tv + '" variable');
-                       }
-                    //check for out
-                    else if(pout.test(lines[i])){
-                        var tv = /[^out ](\w*)/.exec(lines[i]);
-                        if(v[tv] != null){
-                           alert( v[tv] );
+        $(document).ready(function() {
+            var pword = /[\w \= \+ \- \* \/]+/;
+            var pout = /^(out \w*)/;
+            var pin = /^(in \w*)/;
+            $('#run').click(function() {
+                var v = {};
+                var lines = $('#text').val().split('\n');
+                for (var i = 0; i < lines.length; i++) {
+                    if (lines[i].length > 0) {
+
+                        // check for in 
+                        if (pin.test(lines[i])) {
+                            var tv = /[^in ](\w*)/.exec(lines[i]);
+                            v[tv] = prompt('enter value for "' + tv + '" variable');
                         }
-                        else{
-                            console.error('variable "'+ tv[0] + '" undefined!');
+                        //check for out
+                        else if (pout.test(lines[i])) {
+                            var tv = /[^out ](\w*)/.exec(lines[i]);
+                            if (v[tv] != null) {
+                                alert(v[tv]);
+                            } else {
+                                console.error('variable "' + tv[0] + '" undefined!');
+                            }
+                        } else if (pword.test(lines[i])) {
+                            lines[i] = lines[i].replace(/^\s+|\s+$|\s+(?=\s)/g, "");
+                            var s = lines[i].split(" ");
                         }
                     }
                 }
-            }
-           });
-       });
+            });
+        });
     </script>
 </body>
+
 </html>
