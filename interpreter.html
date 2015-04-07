@@ -10,13 +10,34 @@
     <button id="run">RUN!</button>
     
     <script>
-   $( document ).ready(function() {
-       $('#run').click(function(){
-    var lines = $('#text').val().split('\n');
-for(var i = 0;i < lines.length;i++){
-    console.log(lines[i]);
-}
-   });
+       $( document ).ready(function() {
+           var pword = /[\w \= \+ \- \* \/]+/;
+           var pout = /^(out \w*)/;
+           var pin = /^(in \w*)/;
+           $('#run').click(function(){
+            var v = {};
+            var lines = $('#text').val().split('\n');
+            for(var i = 0;i < lines.length;i++){
+                if(lines[i].length > 0){
+                    
+                    // check for in 
+                    if(pin.test(lines[i])){
+                       var tv = /[^in ](\w*)/.exec(lines[i]);
+                        v[tv] = prompt('enter value for "' + tv + '" variable');
+                       }
+                    //check for out
+                    else if(pout.test(lines[i])){
+                        var tv = /[^out ](\w*)/.exec(lines[i]);
+                        if(v[tv] != null){
+                           alert( v[tv] );
+                        }
+                        else{
+                            console.error('variable "'+ tv[0] + '" undefined!');
+                        }
+                    }
+                }
+            }
+           });
        });
     </script>
 </body>
